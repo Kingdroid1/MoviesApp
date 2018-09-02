@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/viewBg"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.company.moviesapp.DetailActivity"
+    tools:showIn="@layout/activity_detail">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/movie_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:text="@string/mv_title"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:padding="@dimen/padding_layout"
+                android:layout_marginTop="@dimen/layout_margin_top"
+                android:textSize="20sp"
+                android:layout_below="@+id/movie_title"/>
+
+            <TextView
+                android:id="@+id/plot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:text="@string/plot_syn"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/layout_margin_top2"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_below="@+id/title"/>
+
+            <TextView
+                android:id="@+id/plot_synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:padding="@dimen/padding_layout"
+                android:layout_marginTop="@dimen/layout_margin_top"
+                android:textSize="20sp"
+                android:layout_below="@+id/plot"/>
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:text="@string/u_rate"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/layout_margin_top2"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_below="@+id/plot_synopsis"/>
+
+            <TextView
+                android:id="@+id/user_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:padding="@dimen/padding_layout"
+                android:layout_marginTop="@dimen/layout_margin_top"
+                android:textSize="20sp"
+                android:layout_below="@+id/rating"/>
+
+            <TextView
+                android:id="@+id/release"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:text="@string/release_date"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/layout_margin_top2"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_below="@+id/user_rating"/>
+
+            <TextView
+                android:id="@+id/release_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left"
+                android:padding="@dimen/padding_layout"
+                android:layout_marginTop="@dimen/layout_margin_top"
+                android:textSize="20sp"
+                android:layout_below="@+id/release"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
