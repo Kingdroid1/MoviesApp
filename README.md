@@ -1,5 +1,5 @@
 # MoviesApp
-MoviesApp is an application that displays movies using themoviedb.org api. This is udacity Android developer nanodegree popularMovies stage 1
+MoviesApp is an application that displays popular and top rated movies using themoviedb.org api. This is Udacity Android developer Nanodegree popularMovies stage 1
 ## Getting Started
 
 To clone this project,
@@ -55,6 +55,7 @@ Contributing to MoviesApp is pretty straight forward! Fork the project, clone yo
 - sort movies
 - view movie detail
 - UI optimized for phone and tablet
+
 ## To Run on an Android OS Device
 * Connect the device to the computer through its USB port
 * Make sure USB debugging is enabled (this may pop up in a window when you connect the device or it may need to be checked in the phone's settings)
