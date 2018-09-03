@@ -24,8 +24,8 @@ API_KEY="YOUR_API_KEY_HERE"
 Then Open the application app:build.gradle and within the defaultConfig add a reference to your API_KEY
 ```
    defaultConfig {
-        applicationId "co.etornam.popularmovies"
-        minSdkVersion 19
+        applicationId "com.company.moviesapp"
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
