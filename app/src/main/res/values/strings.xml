@@ -11,4 +11,10 @@
     <string name="sort_order_key">sortOrder</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="trailer">Trailer</string>
+    <string name="favorite" translatable="false">Favorite Movies</string>
+    <string name="share">Share</string>
+    <string name="review">Review</string>
+    <string name="sortOrder">Choose a sort order</string>
+    <string name="sortOrderBy">Sort By:</string>
 </resources>

@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Movies implements Parcelable{
@@ -40,10 +41,47 @@ public class Movies implements Parcelable{
     @SerializedName("vote_average")
     private Double voteAverage;
 
-    String baseImageUrl = "https://image.tmdb.org/t/p/w185";
 
-    public String getPosterPath() {
-        return  "https://image.tmdb.org/t/p/w185" + posterPath;
+    public static final Comparator <Movies> BY_NAME_ALPHABETICAL = new Comparator <Movies> () {
+        @Override
+        public int compare(Movies movies, Movies t1) {
+
+            return movies.originalTitle.compareTo ( t1.originalTitle );
+        }
+    };
+    public static final Parcelable.Creator <Movies> CREATOR = new Parcelable.Creator <Movies> () {
+        @Override
+        public Movies createFromParcel(Parcel source) {
+            return new Movies ( source );
+        }
+
+        @Override
+        public Movies[] newArray(int size) {
+            return new Movies[size];
+        }
+    };
+
+    public Movies(String posterPath, boolean adult, String overview, String releaseDate, List <Integer> genreIds, Integer id,
+                  String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
+                  Integer voteCount, Boolean video, Double voteAverage) {
+        this.posterPath = posterPath;
+        this.adult = adult;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.genreIds = genreIds;
+        this.id = id;
+        this.originalTitle = originalTitle;
+        this.originalLanguage = originalLanguage;
+        this.title = title;
+        this.backdropPath = backdropPath;
+        this.popularity = popularity;
+        this.voteCount = voteCount;
+        this.video = video;
+        this.voteAverage = voteAverage;
+    }
+
+    public Movies() {
+
     }
 
     public void setPosterPath(String posterPath) {
@@ -159,30 +197,43 @@ public class Movies implements Parcelable{
         return 0;
     }
 
+    protected Movies(Parcel in) {
+        this.posterPath = in.readString ();
+        this.adult = in.readByte () != 0;
+        this.overview = in.readString ();
+        this.releaseDate = in.readString ();
+        this.genreIds = new ArrayList <Integer> ();
+        in.readList ( this.genreIds, Integer.class.getClassLoader () );
+        this.id = (Integer) in.readValue ( Integer.class.getClassLoader () );
+        this.originalTitle = in.readString ();
+        this.originalLanguage = in.readString ();
+        this.title = in.readString ();
+        this.backdropPath = in.readString ();
+        this.popularity = (Double) in.readValue ( Double.class.getClassLoader () );
+        this.voteCount = (Integer) in.readValue ( Integer.class.getClassLoader () );
+        this.video = (Boolean) in.readValue ( Boolean.class.getClassLoader () );
+        this.voteAverage = (Double) in.readValue ( Double.class.getClassLoader () );
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(originalTitle);
-        dest.writeString(posterPath);
-        dest.writeString(overview);
-        dest.writeValue(voteAverage);
-        dest.writeString(releaseDate);
+        dest.writeString ( this.posterPath );
+        dest.writeByte ( this.adult ? (byte) 1 : (byte) 0 );
+        dest.writeString ( this.overview );
+        dest.writeString ( this.releaseDate );
+        dest.writeList ( this.genreIds );
+        dest.writeValue ( this.id );
+        dest.writeString ( this.originalTitle );
+        dest.writeString ( this.originalLanguage );
+        dest.writeString ( this.title );
+        dest.writeString ( this.backdropPath );
+        dest.writeValue ( this.popularity );
+        dest.writeValue ( this.voteCount );
+        dest.writeValue ( this.video );
+        dest.writeValue ( this.voteAverage );
     }
-
-    private Movies(Parcel in) {
-        originalTitle = in.readString();
-        posterPath = in.readString();
-        overview = in.readString();
-        voteAverage = (Double) in.readValue(Double.class.getClassLoader());
-        releaseDate = in.readString();
-    }
-
-    public static final Parcelable.Creator<Movies> CREATOR = new Parcelable.Creator<Movies>() {
-        public Movies createFromParcel(Parcel source) {
-            return new Movies(source);
-        }
-
-        public Movies[] newArray(int size) {
-            return new Movies[size];
-        }
-    };
 }
