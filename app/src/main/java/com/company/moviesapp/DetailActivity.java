@@ -132,6 +132,7 @@ public class DetailActivity extends AppCompatActivity {
         ButterKnife.bind ( this );
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( getApplicationContext () );
         recyclerView.setLayoutManager ( layoutManager );
+        recyclerView.setAdapter ( trailerAdapter ); //corrected
         trailerAdapter.notifyDataSetChanged ();
 
         loadJSON ();
