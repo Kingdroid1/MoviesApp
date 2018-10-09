@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/image_vw"
+                android:layout_toEndOf="@id/image_vw"
                 android:paddingLeft="@dimen/movie_title_padding"
                 android:paddingTop="@dimen/movie_title_padding"
                 android:paddingRight="@dimen/movie_title_padding"

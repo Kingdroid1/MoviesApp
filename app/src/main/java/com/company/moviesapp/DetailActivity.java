@@ -140,6 +140,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void loadJSON() {
+        //movie_id = getIntent ().getExtras ().getInt ( "id" );
 
         try {
             if (BuildConfig.THE_MOVIE_DB_API_KEY.isEmpty ()) {
