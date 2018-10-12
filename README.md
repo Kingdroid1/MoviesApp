@@ -1,5 +1,5 @@
 # MoviesApp
-MoviesApp is an application that displays popular and top rated movies using themoviedb.org api. This is Udacity Android developer Nanodegree popularMovies stage 1
+MoviesApp is an application that displays popular, favourite and top rated movies using themoviedb.org api. This is Udacity Android developer Nanodegree popularMovies stages 1&2
 ## Getting Started
 
 To clone this project,
