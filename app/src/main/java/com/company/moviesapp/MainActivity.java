@@ -38,7 +38,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
@@ -84,26 +84,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    public Activity getActivity(){
-        Context context = this;
-        while (context instanceof ContextWrapper){
-            if (context instanceof Activity){
-                return (Activity) context;
-            }
-            context = ((ContextWrapper) context).getBaseContext ();
-        }
-        return null;
-}
-    private void initViews(){
+    private void initViews() {
 
         recyclerView = findViewById ( R.id.recycler_view );
 
-        moviesList = new ArrayList <> (  );
+        moviesList = new ArrayList <> ();
         adapter = new MoviesAdapter ( this, moviesList );
 
-        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getActivity ().getResources ().getConfiguration ().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager ( new GridLayoutManager ( this, 3 ) );
-        }else {
+        } else {
             recyclerView.setLayoutManager ( new GridLayoutManager ( this, 6 ) );
         }
 
@@ -133,6 +123,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         savedRecyclerLayoutState = savedInstanceState.getParcelable ( BUNDLE_RECYCLER_LAYOUT );
         super.onRestoreInstanceState ( savedInstanceState );
     }
+
+    public Activity getActivity(){
+        Context context = this;
+        while (context instanceof ContextWrapper){
+            if (context instanceof Activity){
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext ();
+        }
+        return null;
+}
 
     private void loadJSON() {
 
@@ -251,12 +252,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        Log.d ( LOG_TAG, "Preference updated" );
-        checkSortOrder();
-    }
-
     private String checkSortOrder() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences ( this );
         String sortOrder = preferences.getString (
@@ -265,16 +260,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         );
 
         return sortOrder;
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume ();
-        if (moviesList.isEmpty ()){
-            checkSortOrder ();
-        } else {
-            checkSortOrder ();
-        }
     }
 
     private void getAllFavorite() {
