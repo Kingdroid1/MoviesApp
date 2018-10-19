@@ -52,14 +52,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                 .into ( holder.thumbnail );
     }
 
-    public void setMovies(List <Movies> movies) {
-        moviesList = movies;
-        notifyDataSetChanged ();
-    }
-
     @Override
     public int getItemCount() {
+        if (moviesList == null) {
+            return 0;
+        }
         return moviesList.size ();
+    }
+
+    public void setMovies(List <Movies> movies) {
+        this.moviesList = movies;
+        notifyDataSetChanged ();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -89,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById ( R.id.recycler_view );
 
-        //moviesList = new ArrayList <> ();
-        //adapter = new MoviesAdapter ( this, moviesList );
+        adapter = new MoviesAdapter ( this, moviesList );
 
         if (getActivity ().getResources ().getConfiguration ().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager ( new GridLayoutManager ( this, 3 ) );
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViews2() {
 
         recyclerView = findViewById ( R.id.recycler_view );
-
+        recyclerView.setAdapter ( adapter );
         getAllFavorite ();
 
     }
@@ -150,15 +149,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                //OkHttpClient okHttpClient = new OkHttpClient.Builder ()
-
-                // .build ();
-
-                // Retrofit.Builder builder = new Retrofit.Builder ()
-                //  .baseUrl ( "http://api.themoviedb.org/3/" )
-                //  .client ( okHttpClient )
-                // .addConverterFactory ( GsonConverterFactory.create () );
-
                 RetrofitClient RetrofitClient = new RetrofitClient ();
                 Service apiService = com.company.moviesapp.api.RetrofitClient.getRetrofit ().create ( Service.class );
                 Call <MoviesResponse> call = apiService.getPopularMovies ( BuildConfig.THE_MOVIE_DB_API_KEY );
@@ -188,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (sortOrder.equals ( this.getString ( R.string.favorite ) )) {
             initViews2 ();
-            //loadJSON ();
+
 
         } else {
 
@@ -198,15 +188,6 @@ public class MainActivity extends AppCompatActivity {
                     pd.dismiss ();
                     return;
                 }
-
-                //OkHttpClient okHttpClient = new OkHttpClient.Builder ()
-
-                // .build ();
-
-                // Retrofit.Builder builder = new Retrofit.Builder ()
-                // .baseUrl ( "http://api.themoviedb.org/3/" )
-                //.client ( okHttpClient )
-                //.addConverterFactory ( GsonConverterFactory.create () );
 
                 RetrofitClient RetrofitClient = new RetrofitClient ();
                 Service apiService = com.company.moviesapp.api.RetrofitClient.getRetrofit ().create ( Service.class );
@@ -271,32 +252,8 @@ public class MainActivity extends AppCompatActivity {
                 this.getString ( R.string.most_popular )
         );
 
-        //return sortOrder;
-        // if (sortOrder.equals(this.getString(R.string.most_popular))) {
-        //  Log.d(LOG_TAG, "Sorting by most popular");
-        //   loadJSON();
-        // } else if(sortOrder.equals(this.getString(R.string.favorite))){
-        //   Log.d(LOG_TAG, "Sorting by favorite");
-        //   initViews2();
-        // } //else{
-        // Log.d(LOG_TAG, "Sorting by vote average");
-        // loadJSON1();
-        // }
         return sortOrder;
     }
-
-    // @Override
-    // public void onResume(){
-    //super.onResume();
-    // if (moviesList.isEmpty()){
-    //  checkSortOrder();
-    // }else{
-
-    //    checkSortOrder();
-    //   }
-    // }
-
-
 
     private void getAllFavorite() {
         MainViewModel mainViewModel = ViewModelProviders.of ( this ).get ( MainViewModel.class );

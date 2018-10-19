@@ -55,8 +55,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     private final AppCompatActivity appCompatActivity = DetailActivity.this;
-    // @BindView(R.id.title)
-    //String nameOfMovie;
     @BindView(R.id.plot_synopsis)
     TextView plotSynopsis;
     @BindView(R.id.user_rating)
@@ -68,7 +66,6 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view1)
     RecyclerView recyclerView;
     List <MovieEntity> movieEntities = new ArrayList <> ();
-    boolean exists;
     int movie_id;
     Movies movies;
     String thumbnail, movieName, synopsis, rating, dateOfRelease;
@@ -109,7 +106,6 @@ public class DetailActivity extends AppCompatActivity {
                     .placeholder ( getResources ().getDrawable ( R.drawable.user_placeholder ) )
                     .into ( imageView );
 
-            // nameOfMovie.setText ( nameOfMovie );
             plotSynopsis.setText ( synopsis );
             userRating.setText ( rating );
             releaseDate.setText ( dateOfRelease );
@@ -132,7 +128,7 @@ public class DetailActivity extends AppCompatActivity {
         ButterKnife.bind ( this );
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( getApplicationContext () );
         recyclerView.setLayoutManager ( layoutManager );
-        recyclerView.setAdapter ( trailerAdapter ); //corrected
+        recyclerView.setAdapter ( trailerAdapter );
         trailerAdapter.notifyDataSetChanged ();
 
         loadJSON ();
@@ -140,7 +136,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void loadJSON() {
-        //movie_id = getIntent ().getExtras ().getInt ( "id" );
 
         try {
             if (BuildConfig.THE_MOVIE_DB_API_KEY.isEmpty ()) {
