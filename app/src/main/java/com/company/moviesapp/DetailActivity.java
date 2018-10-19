@@ -106,7 +106,7 @@ public class DetailActivity extends AppCompatActivity {
             Picasso.get ()
                     .load ( poster )
                     .noFade ()
-                    .placeholder ( getResources ().getDrawable ( R.drawable.ic_image_black ) )
+                    .placeholder ( getResources ().getDrawable ( R.drawable.user_placeholder ) )
                     .into ( imageView );
 
             // nameOfMovie.setText ( nameOfMovie );

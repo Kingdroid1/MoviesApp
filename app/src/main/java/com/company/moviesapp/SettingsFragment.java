@@ -9,24 +9,13 @@ import android.preference.PreferenceManager;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    public SettingsFragment() {
-    }
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         addPreferencesFromResource ( R.xml.preferences );
 
-        Preference orderBy = findPreference ( "sortOrder" );
+        Preference orderBy = findPreference ( getString ( R.string.sort_order_key ) );
         bindPreferenceSummaryToValue ( orderBy );
-    }
-
-    private void bindPreferenceSummaryToValue(Preference preference) {
-        preference.setOnPreferenceChangeListener ( this );
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences ( preference.getContext () );
-        String preferenceString = sharedPreferences.getString ( preference.getKey (), "" );
-        onPreferenceChange ( preference, preferenceString );
     }
 
     @Override
@@ -43,5 +32,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             preference.setSummary ( stringValue );
         }
         return true;
+    }
+
+    private void bindPreferenceSummaryToValue(Preference preference) {
+        preference.setOnPreferenceChangeListener ( this );
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences ( preference.getContext () );
+        String preferenceString = sharedPreferences.getString ( preference.getKey (), "" );
+        onPreferenceChange ( preference, preferenceString );
     }
 }

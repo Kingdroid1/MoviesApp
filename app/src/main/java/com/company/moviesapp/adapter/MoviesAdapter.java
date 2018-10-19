@@ -47,17 +47,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         Picasso.get ()
                 .load ( poster )
+                .placeholder ( R.drawable.user_placeholder )
+                .error ( R.drawable.error_placeholder )
                 .into ( holder.thumbnail );
-    }
-
-    @Override
-    public int getItemCount() {
-        return moviesList.size ();
     }
 
     public void setMovies(List <Movies> movies) {
         moviesList = movies;
         notifyDataSetChanged ();
+    }
+
+    @Override
+    public int getItemCount() {
+        return moviesList.size ();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

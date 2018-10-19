@@ -1,6 +1,7 @@
 package com.company.moviesapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -8,6 +9,8 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import com.company.moviesapp.MovieViewModel.MainViewModel;
 import com.company.moviesapp.adapter.MoviesAdapter;
+import com.company.moviesapp.api.RetrofitClient;
 import com.company.moviesapp.api.Service;
 import com.company.moviesapp.model.Movies;
 import com.company.moviesapp.model.MoviesResponse;
@@ -31,25 +35,22 @@ import com.company.moviesapp.movieDatabase.MovieEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String LOG_TAG = MoviesAdapter.class.getName ();
+    private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_layout";
+    private static String LIST_STATE = "list_state";
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
-    private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_layout";
-
-    private static String LIST_STATE = "list_state";
-    public static final String LOG_TAG = MoviesAdapter.class.getName ();
     private List <Movies> moviesList;
     private AppCompatActivity appCompatActivity = MainActivity.this;
     private Parcelable savedRecyclerLayoutState;
     private ArrayList <Movies> moviesInstance = new ArrayList <> ();
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById ( R.id.recycler_view );
 
-        moviesList = new ArrayList <> ();
-        adapter = new MoviesAdapter ( this, moviesList );
+        //moviesList = new ArrayList <> ();
+        //adapter = new MoviesAdapter ( this, moviesList );
 
         if (getActivity ().getResources ().getConfiguration ().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager ( new GridLayoutManager ( this, 3 ) );
@@ -145,20 +146,21 @@ public class MainActivity extends AppCompatActivity {
             try {
                 if (BuildConfig.THE_MOVIE_DB_API_KEY.isEmpty ()) {
                     Toast.makeText ( getApplicationContext (), "Please obtain API Key ...", Toast.LENGTH_SHORT ).show ();
+                    pd.dismiss ();
                     return;
                 }
 
-                OkHttpClient okHttpClient = new OkHttpClient.Builder ()
+                //OkHttpClient okHttpClient = new OkHttpClient.Builder ()
 
-                        .build ();
+                // .build ();
 
-                Retrofit.Builder builder = new Retrofit.Builder ()
-                        .baseUrl ( "http://api.themoviedb.org/3/" )
-                        .client ( okHttpClient )
-                        .addConverterFactory ( GsonConverterFactory.create () );
+                // Retrofit.Builder builder = new Retrofit.Builder ()
+                //  .baseUrl ( "http://api.themoviedb.org/3/" )
+                //  .client ( okHttpClient )
+                // .addConverterFactory ( GsonConverterFactory.create () );
 
-                Retrofit retrofit = builder.build ();
-                Service apiService = retrofit.create ( Service.class );
+                RetrofitClient RetrofitClient = new RetrofitClient ();
+                Service apiService = com.company.moviesapp.api.RetrofitClient.getRetrofit ().create ( Service.class );
                 Call <MoviesResponse> call = apiService.getPopularMovies ( BuildConfig.THE_MOVIE_DB_API_KEY );
                 call.enqueue ( new Callback <MoviesResponse> () {
                     @Override
@@ -186,26 +188,28 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (sortOrder.equals ( this.getString ( R.string.favorite ) )) {
             initViews2 ();
+            //loadJSON ();
 
         } else {
 
             try {
                 if (BuildConfig.THE_MOVIE_DB_API_KEY.isEmpty ()) {
                     Toast.makeText ( getApplicationContext (), "Please obtain API Key ...", Toast.LENGTH_SHORT ).show ();
+                    pd.dismiss ();
                     return;
                 }
 
-                OkHttpClient okHttpClient = new OkHttpClient.Builder ()
+                //OkHttpClient okHttpClient = new OkHttpClient.Builder ()
 
-                        .build ();
+                // .build ();
 
-                Retrofit.Builder builder = new Retrofit.Builder ()
-                        .baseUrl ( "http://api.themoviedb.org/3/" )
-                        .client ( okHttpClient )
-                        .addConverterFactory ( GsonConverterFactory.create () );
+                // Retrofit.Builder builder = new Retrofit.Builder ()
+                // .baseUrl ( "http://api.themoviedb.org/3/" )
+                //.client ( okHttpClient )
+                //.addConverterFactory ( GsonConverterFactory.create () );
 
-                Retrofit retrofit = builder.build ();
-                Service apiService = retrofit.create ( Service.class );
+                RetrofitClient RetrofitClient = new RetrofitClient ();
+                Service apiService = com.company.moviesapp.api.RetrofitClient.getRetrofit ().create ( Service.class );
 
                 Call <MoviesResponse> call = apiService.getTopRatedMovies ( BuildConfig.THE_MOVIE_DB_API_KEY );
                 call.enqueue ( new Callback <MoviesResponse> () {
@@ -234,6 +238,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService ( Context.CONNECTIVITY_SERVICE );
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo ();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected ();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater ().inflate ( R.menu.menu_main, menu );
@@ -259,29 +271,55 @@ public class MainActivity extends AppCompatActivity {
                 this.getString ( R.string.most_popular )
         );
 
+        //return sortOrder;
+        // if (sortOrder.equals(this.getString(R.string.most_popular))) {
+        //  Log.d(LOG_TAG, "Sorting by most popular");
+        //   loadJSON();
+        // } else if(sortOrder.equals(this.getString(R.string.favorite))){
+        //   Log.d(LOG_TAG, "Sorting by favorite");
+        //   initViews2();
+        // } //else{
+        // Log.d(LOG_TAG, "Sorting by vote average");
+        // loadJSON1();
+        // }
         return sortOrder;
     }
+
+    // @Override
+    // public void onResume(){
+    //super.onResume();
+    // if (moviesList.isEmpty()){
+    //  checkSortOrder();
+    // }else{
+
+    //    checkSortOrder();
+    //   }
+    // }
+
+
 
     private void getAllFavorite() {
         MainViewModel mainViewModel = ViewModelProviders.of ( this ).get ( MainViewModel.class );
         mainViewModel.getFavoriteMovie ().observe ( this, new Observer <List <MovieEntity>> () {
             @Override
             public void onChanged(@Nullable List <MovieEntity> movieEntities) {
-                List <Movies> movies = new ArrayList <> ();
-                for (MovieEntity movieEntity : movieEntities) {
-                    Movies movie = new Movies ();
-                    movie.setId ( movieEntity.getMovieId () );
-                    movie.setOverview ( movieEntity.getOverview () );
-                    movie.setOriginalTitle ( movieEntity.getTitle () );
-                    movie.setPosterPath ( movieEntity.getPosterPath () );
-                    movie.setVoteAverage ( movieEntity.getUserRating () );
+                if (movieEntities != null) {
+                    List <Movies> movies = new ArrayList <> ();
+                    for (MovieEntity movieEntity : movieEntities) {
+                        Movies movie = new Movies ();
+                        movie.setId ( movieEntity.getMovieId () );
+                        movie.setOverview ( movieEntity.getOverview () );
+                        movie.setOriginalTitle ( movieEntity.getTitle () );
+                        movie.setPosterPath ( movieEntity.getPosterPath () );
+                        movie.setVoteAverage ( movieEntity.getUserRating () );
 
-                    movies.add ( movie );
+                        movies.add ( movie );
+                    }
+
+                    adapter.setMovies ( movies );
                 }
-
-                adapter.setMovies ( movies );
             }
-
         } );
     }
 }
+

@@ -17,4 +17,5 @@
     <string name="review">Review</string>
     <string name="sortOrder">Choose a sort order</string>
     <string name="sortOrderBy">Sort By:</string>
+    <string name="sortByKey" translatable="false">Sort</string>
 </resources>
